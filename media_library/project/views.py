@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.db.models import Q
-from models import MediaItem, MediaHistory
+from project.models import MediaItem, MediaHistory
 
 def index(request):
     media_list = MediaItem.objects.all()

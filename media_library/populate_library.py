@@ -1,7 +1,6 @@
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                       'project.settings')
-
 import django
 django.setup()
 from project.models import User, MediaItem, MediaHistory, Topics
@@ -99,8 +98,7 @@ def add_media_history(date_out, date_due, date_returned, borrower, media):
     return h
 
 def add_media(type, title, isbn, author, image_file, topic, subtopic):
-    m = MediaItem.objects.get_or_create(type=type, title=title, isbn=isbn, author=author, image_file=image_file)[0]
-    m.topic = Topics.objects.get(topic=topic)
+    m = MediaItem.objects.get_or_create(type=type, title=title, isbn=isbn, author=author, image_file=image_file, topic=Topics.objects.get(topic=topic))[0]
     # m.subtopic = Topics.objects.get(topic=subtopic)
     m.save()
     return m
