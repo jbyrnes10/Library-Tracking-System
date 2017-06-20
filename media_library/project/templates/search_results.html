@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+- Search Results
+{% endblock %}
+
+{% block body_block %}
+    <h1>Search Results</h1>
+    {% if results %}
+        <ul>
+            {% for media_item in results %}
+            <li>
+                <ul>
+                {{ media_item.title }}
+                    <li>{{ media_item.author }}, {{ media_item.isbn }}</li>
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        No search results.
+    {% endif %}
+{% endblock %}

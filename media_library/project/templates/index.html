@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+{% endblock %}
+
+{% block body_block %}
+    <h1>Available Media</h1>
+    {% if media %}
+        <ul>
+            {% for media_item in media %}
+                <li>
+                    {{ media_item.title }}
+
+                    <a href="cart">Check Out</a>
+
+                    {% if history %}
+                    <ul>
+                        {% for history_item in history %}
+                            <li>
+                                Checked Out: {{ history_item.date_out }},
+                                Date Due: {{ history_item.date_due }},
+                                Date Returned: {{ history_item.date_returned }},
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        No media available.
+    {% endif %}
+{% endblock %}
