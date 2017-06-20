@@ -10,12 +10,13 @@
     {% if results %}
         <ul>
             {% for media_item in results %}
-            <li>
-                <ul>
-                {{ media_item.title }}
-                    <li>{{ media_item.author }}, {{ media_item.isbn }}</li>
-                </ul>
-            </li>
+                <img src="{{ MEDIA_URL }}{{ media_item.image_file }}" height="10%" width="10%" />
+                <li>
+                    <ul>
+                    {{ media_item.title }}
+                        <li>{{ media_item.author }}, {{ media_item.isbn }}</li>
+                    </ul>
+                </li>
             {% endfor %}
         </ul>
     {% else %}

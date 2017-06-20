@@ -31,24 +31,28 @@ def populate():
          "title":"Introduction to Android Application Development: Android Essentials",
          "isbn":"978-0321940261",
          "author":"Annuzzi, Joseph Jr., Lauren Darcey and Shane Conder",
+         "image_file":"IntroductiontoAndroid.jpg",
          "topic":"Android Development",
          "subtopic":"Software Development"},
         {"type":"Book",
          "title":"Murach's JavaScript and jQuery",
          "isbn":"978-1890774707",
          "author":"Murach, Mike and Zak Ruvalcaba",
+         "image_file": "JavaScriptandJQuery.jpg",
          "topic":"JavaScript/jQuery",
          "subtopic":"Software Development"},
         {"type":"Book",
          "title":"Principles of Information Security",
          "isbn":"978-1111138219",
          "author":"Whitman, Michael E. and Herbert J. Mattord",
+         "image_file": "PrinciplesofInformationSecurity.jpg",
          "topic":"Information Security",
          "subtopic":"Cyber Security"},
         {"type":"Book",
          "title":"Tango With Django: A beginner's guide to web development",
          "isbn":"N/A",
          "author":"Azzopardi, Leif and David Maxwell",
+         "image_file": "TangoWithDjango.jpg",
          "topic":"Django",
          "subtopic":"Software Development"} ]
 
@@ -71,7 +75,7 @@ def populate():
         add_user(user["user_id"],user["first_name"],user["last_name"])
 
     for item in media_items:
-        add_media(item["type"],item["title"],item["isbn"],item["author"],item["topic"],item["subtopic"])
+        add_media(item["type"],item["title"],item["isbn"],item["author"],item["image_file"],item["topic"],item["subtopic"])
 
     for history in item_history:
         add_media_history(history["date_out"],history["date_due"],history["date_returned"],history["borrower"],history["media"])
@@ -89,14 +93,13 @@ def add_user(user_id, first_name, last_name):
 def add_media_history(date_out, date_due, date_returned, borrower, media):
     borrower_id = User.objects.get(user_id=borrower).id
     media = MediaItem.objects.get(title=media).id
-    print(media)
     h = MediaHistory.objects.get_or_create(date_out=date_out, date_due=date_due,
                                            date_returned=date_returned, borrower_id=borrower_id, media_item_id=media)[0]
     h.save()
     return h
 
-def add_media(type, title, isbn, author, topic, subtopic):
-    m = MediaItem.objects.get_or_create(type=type, title=title, isbn=isbn, author=author)[0]
+def add_media(type, title, isbn, author, image_file, topic, subtopic):
+    m = MediaItem.objects.get_or_create(type=type, title=title, isbn=isbn, author=author, image_file=image_file)[0]
     m.topic = Topics.objects.get(topic=topic)
     # m.subtopic = Topics.objects.get(topic=subtopic)
     m.save()

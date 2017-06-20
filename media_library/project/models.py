@@ -19,6 +19,7 @@ class MediaItem(models.Model):
     title = models.CharField(max_length=100)
     isbn = models.CharField(max_length=17)
     author = models.CharField(max_length=100)
+    image_file = models.CharField(max_length=100)
     topic = models.ForeignKey(Topics, related_name="topic_fk")
     subtopic = models.ManyToManyField(Topics, related_name="subtopic_fk")
 
