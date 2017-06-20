@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import User, MediaItem, MediaHistory
+from project.models import User, MediaItem, MediaHistory
 
 class UserAdmin(admin.ModelAdmin):
     user_list = ('user_id', 'first_name', 'last_name')

@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': 'library',
         'USER': 'root',
         'PASSWORD': 'unsecure',
-        'HOST': '127.0.0.1',
+        'HOST': 'mysql',
         'PORT': '3306',
     }
 }
