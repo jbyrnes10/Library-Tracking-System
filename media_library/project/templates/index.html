@@ -7,24 +7,29 @@
 {% block body_block %}
     <h1>Library</h1>
     {% if media %}
+    <h3>Available Media</h3>
         <ul>
-            {% for media_item in media %}
+            {% for media_item in available %}
+            <img src="{{ MEDIA_URL }}{{ media_item.image_file }}" height="5%" width="5%" />
                 <li>
                     {{ media_item.title }}
-
-                    <a href="cart">Check Out</a>
-
-                    {% if history %}
                     <ul>
-                        {% for history_item in history %}
-                            <li>
-                                Checked Out: {{ history_item.date_out }},
-                                Date Due: {{ history_item.date_due }},
-                                Date Returned: {{ history_item.date_returned }},
-                            </li>
-                        {% endfor %}
+                        <li>ISBN: {{ media_item.isbn }}</li>
+                        <li><a href="cart">Check Out</a></li>
                     </ul>
-                    {% endif %}
+                </li>
+            <br/>
+            {% endfor %}
+        </ul>
+    <h3>Checked-out Media</h3>
+        <ul>
+            {% for media_item in unavailable %}
+            <img src="{{ MEDIA_URL }}{{ media_item.image_file }}" height="5%" width="5%" />
+                <li>
+                    {{ media_item.title }}
+                    <ul>
+                        <li>Item is currently checked out.</li>
+                    </ul>
                 </li>
             {% endfor %}
         </ul>

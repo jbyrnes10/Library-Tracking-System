@@ -32,29 +32,33 @@ def populate():
          "isbn":"978-0321940261",
          "author":"Annuzzi, Joseph Jr., Lauren Darcey and Shane Conder",
          "image_file":"IntroductiontoAndroid.jpg",
+         "checked_out":1,
          "topic":"Android Development",
-         "subtopic":"Software Development"},
+         "subtopic":{"Software Development"}},
         {"type":"Book",
          "title":"Murach's JavaScript and jQuery",
          "isbn":"978-1890774707",
          "author":"Murach, Mike and Zak Ruvalcaba",
          "image_file": "JavaScriptandJQuery.jpg",
+         "checked_out": 0,
          "topic":"JavaScript/jQuery",
-         "subtopic":"Software Development"},
+         "subtopic":{"Software Development"}},
         {"type":"Book",
          "title":"Principles of Information Security",
          "isbn":"978-1111138219",
          "author":"Whitman, Michael E. and Herbert J. Mattord",
          "image_file": "PrinciplesofInformationSecurity.jpg",
+         "checked_out": 0,
          "topic":"Information Security",
-         "subtopic":"Cyber Security"},
+         "subtopic":{"Cyber Security"}},
         {"type":"Book",
          "title":"Tango With Django: A beginner's guide to web development",
          "isbn":"N/A",
          "author":"Azzopardi, Leif and David Maxwell",
          "image_file": "TangoWithDjango.jpg",
+         "checked_out": 0,
          "topic":"Django",
-         "subtopic":"Software Development"} ]
+         "subtopic":{"Software Development"}} ]
 
     item_history = [
         {"date_out":"2017-06-01",
@@ -66,7 +70,13 @@ def populate():
          "date_due": "2017-06-15",
          "date_returned": "2017-06-14",
          "borrower": "RMcGinley",
-         "media":"Murach's JavaScript and jQuery"} ]
+         "media":"Murach's JavaScript and jQuery"},
+        {"date_out": "2017-06-14",
+         "date_due": "2017-06-28",
+         "date_returned": None,
+         "borrower": "JByrnes",
+         "media": "Principles of Information Security"}
+    ]
 
     for topic in topics:
         add_topic(topic["topic"])
@@ -75,7 +85,7 @@ def populate():
         add_user(user["user_id"],user["first_name"],user["last_name"])
 
     for item in media_items:
-        add_media(item["type"],item["title"],item["isbn"],item["author"],item["image_file"],item["topic"],item["subtopic"])
+        add_media(item["type"],item["title"],item["isbn"],item["author"],item["image_file"],item["checked_out"],item["topic"],item["subtopic"])
 
     for history in item_history:
         add_media_history(history["date_out"],history["date_due"],history["date_returned"],history["borrower"],history["media"])
@@ -98,8 +108,8 @@ def add_media_history(date_out, date_due, date_returned, borrower, media):
     h.save()
     return h
 
-def add_media(type, title, isbn, author, image_file, topic, subtopic):
-    m = MediaItem.objects.get_or_create(type=type, title=title, isbn=isbn, author=author, image_file=image_file)[0]
+def add_media(type, title, isbn, author, image_file, checked_out, topic, subtopic):
+    m = MediaItem.objects.get_or_create(type=type, title=title, isbn=isbn, author=author, image_file=image_file, checked_out=checked_out)[0]
     m.topic = Topics.objects.get(topic=topic)
     # m.subtopic = Topics.objects.get(topic=subtopic)
     m.save()

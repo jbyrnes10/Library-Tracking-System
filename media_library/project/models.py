@@ -20,6 +20,7 @@ class MediaItem(models.Model):
     isbn = models.CharField(max_length=17)
     author = models.CharField(max_length=100)
     image_file = models.CharField(max_length=100)
+    checked_out = models.BooleanField(default=False)
     topic = models.ForeignKey(Topics, related_name="topic_fk")
     subtopic = models.ManyToManyField(Topics, related_name="subtopic_fk")
 
@@ -32,7 +33,7 @@ class MediaItem(models.Model):
 class MediaHistory(models.Model):
     date_out = models.DateField(null=False)
     date_due = models.DateField()
-    date_returned = models.DateField(null=True)
+    date_returned = models.DateField(blank=True, null=True)
     media_item = models.ForeignKey(MediaItem)
     borrower = models.ForeignKey(User)
 
