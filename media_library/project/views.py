@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.db.models import Q
 from models import MediaItem, MediaHistory
+from datetime import datetime
 
 def index(request):
     media_list = MediaItem.objects.all()
@@ -16,9 +17,13 @@ def admin_actions(request):
     return render(request, 'admin_actions.html', {})
 
 def check_out(request, media_id):
-    print(media_id)
     clicked_media = MediaItem.objects.get(id=media_id)
+    clicked_media.checked_out = True
+    clicked_media.save()
+    new_check_out = MediaHistory.objects.create(media_item_id=media_id, date_out=datetime.now(), borrower_id=3)
+    new_check_out.save()
     media_history = MediaHistory.objects.filter(media_item_id=media_id)
+
 
     context_dict = {'checked_out_media': clicked_media, 'checked_out_history': media_history}
     return render(request, 'cart.html', context=context_dict)
