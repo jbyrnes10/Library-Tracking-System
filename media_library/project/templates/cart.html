@@ -7,7 +7,14 @@
 
 {% block body_block %}
     <h1>Your Cart</h1>
-        <div>
-            <label>Items checked out:</label>
-        </div>
+    <ul>
+        {{ checked_out_media.title }}
+        {% for history in checked_out_history %}
+        <li>
+            Date Checked Out: {{ history.date_out }},
+            Date Due: {{ history.date_due }},
+            Date Returned: {{ history.date_returned }}
+        </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

@@ -15,12 +15,17 @@ def index(request):
 def admin_actions(request):
     return render(request, 'admin_actions.html', {})
 
-def cart(request):
-    return render(request, 'cart.html', {})
+def check_out(request, media_id):
+    print(media_id)
+    clicked_media = MediaItem.objects.get(id=media_id)
+    media_history = MediaHistory.objects.filter(media_item_id=media_id)
+
+    context_dict = {'checked_out_media': clicked_media, 'checked_out_history': media_history}
+    return render(request, 'cart.html', context=context_dict)
 
 def search_results(request):
     if request.method == 'POST':
         search_text = request.POST.get('searchText')
         media = MediaItem.objects.filter(Q(title__icontains=search_text) | Q(isbn__icontains=search_text))
 
-    return render_to_response('search_results.html', {"results": media, }, context_instance=RequestContext(request))
+    return render_to_response('search_results.html', {'results': media, }, context_instance=RequestContext(request))
