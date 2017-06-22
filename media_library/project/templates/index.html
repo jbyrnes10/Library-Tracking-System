@@ -12,7 +12,7 @@
             {% for media_item in available %}
             <img src="{{ MEDIA_URL }}{{ media_item.image_file }}" height="5%" width="5%" />
                 <li>
-                    <a href="{% url 'check_out' media_item.id %}" title="Check Out">{{ media_item.title }}</a>
+                    {{ media_item.title }}<a href="{% url 'check_out' media_item.id %}" title="Check Out">Check Out</a>
                     <ul>
                         <li>ISBN: {{ media_item.isbn }}</li>
                     </ul>

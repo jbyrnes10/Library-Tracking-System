@@ -7,7 +7,37 @@
 
 {% block body_block %}
     <h1>Administrator Actions</h1>
-        <div>
-            <input type="d" />
-        </div>
+    <h3>Return an Item</h3>
+        <ul>
+            {% for media_item in unavailable %}
+            <img src="{{ MEDIA_URL }}{{ media_item.image_file }}" height="5%" width="5%" />
+                <li>
+                    {{ media_item.title }}
+                    <ul>
+                        <li><a href="{% url 'check_in' media_item.id %}" title="Check In">Mark as returned</a></li>
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    <h3>Assign an Item</h3>
+        <ul>
+            {% for media_item in available %}
+            <img src="{{ MEDIA_URL }}{{ media_item.image_file }}" height="5%" width="5%" />
+                <li>
+                    {{ media_item.title }}
+                    <ul>
+                        <li>
+                            <select>
+                                {% for user in users %}
+                                <option>{{ user.user_id }}</option>
+                                {% endfor %}
+                            </select>
+                            <a href="{% url 'check_out' media_item.id %}" title="Assign">Assign</a>
+                        </li>
+                        <li>ISBN: {{ media_item.isbn }}</li>
+                    </ul>
+                </li>
+            <br/>
+            {% endfor %}
+        </ul>
 {% endblock %}

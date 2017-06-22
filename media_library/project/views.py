@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.db.models import Q
-from models import MediaItem, MediaHistory
+from models import MediaItem, MediaHistory, User
 from datetime import datetime
 
 def index(request):
@@ -14,19 +14,35 @@ def index(request):
     return render(request, 'index.html', context=context_dict)
 
 def admin_actions(request):
-    return render(request, 'admin_actions.html', {})
+    user_list = User.objects.all().order_by('user_id')
+    available_list = MediaItem.objects.filter(checked_out=False)
+    unavailable_list = MediaItem.objects.filter(checked_out=True)
+
+    context_dict = {'users': user_list, 'available': available_list, 'unavailable': unavailable_list}
+    return render(request, 'admin_actions.html', context=context_dict)
 
 def check_out(request, media_id):
     clicked_media = MediaItem.objects.get(id=media_id)
     clicked_media.checked_out = True
     clicked_media.save()
+
     new_check_out = MediaHistory.objects.create(media_item_id=media_id, date_out=datetime.now(), borrower_id=3)
     new_check_out.save()
     media_history = MediaHistory.objects.filter(media_item_id=media_id)
 
-
     context_dict = {'checked_out_media': clicked_media, 'checked_out_history': media_history}
     return render(request, 'cart.html', context=context_dict)
+
+def check_in(request, media_id):
+    clicked_media = MediaItem.objects.get(id=media_id)
+    clicked_media.checked_out = False
+    clicked_media.save()
+
+    clicked_media_history = MediaHistory.objects.get(media_item_id=media_id, date_returned=None)
+    clicked_media_history.save()
+
+    context_dict = {'checked_out_media': clicked_media, 'checked_out_history': clicked_media_history}
+    return render(request, 'admin_actions.html', context=context_dict)
 
 def search_results(request):
     if request.method == 'POST':
